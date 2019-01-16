@@ -10,23 +10,25 @@ const HEROES = [
   { id: 7, name: 'Hulk', squad: 'Avengers' },
 ];
 
-function findOne(arr, query){
-  for(let i = 0; i < arr.length; i++){
-    const hero = arr[i];
-    for(let k1 in query){
-      if(Object.keys(hero).includes(k1) === false){
-        console.log(hero[k1]);
-        return null;
-      }
-    }
-    for(let k2 in query){
-      if(hero[k2] !== query[k2]){
-        console.log(hero[k2], query[k2]);
-        return null;
-      }
+function findOne(arr, query) {
 
+  let result = arr.find((hero) => {
+
+    for (let key in query) {
+
+      if (Object.keys(hero).includes(key) === false || hero[key] !== query[key] ) {
+        return false;
+      }
     }
-    return hero;
-  }
+
+    return true;
+  });
+
+  return result || null;
 }
-findOne(HEROES, { id: 5});
+
+console.log(findOne(HEROES, { id: 1 }));
+console.log(findOne(HEROES, { id: 10 }));
+console.log(findOne(HEROES, { id: 2, name: 'Aquaman' }));
+console.log(findOne(HEROES, { id: 5, squad: 'Justice League' }));
+console.log(findOne(HEROES, { squad: 'Justice League' }));
